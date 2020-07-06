@@ -8,4 +8,6 @@ import com.example.petheart.Memory
 @Database(entities = [Memory::class], version = 1)
 @TypeConverters(MemoryTypeConverters::class)
 abstract class MemoryDatabase : RoomDatabase() {
+
+    abstract fun memoryDao(): MemoryDao
 }
