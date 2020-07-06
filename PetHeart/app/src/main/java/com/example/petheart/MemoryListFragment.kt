@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ class MemoryListFragment : Fragment() {
     private lateinit var memoryRecyclerView: RecyclerView
     private var adapter: MemoryAdapter? = null
 
-    private val memoryListViewModel: MemoryListViewModel by lazy{
+    private val memoryListViewModel: MemoryListViewModel by lazy {
         ViewModelProviders.of(this).get(MemoryListViewModel::class.java)
     }
 
@@ -43,21 +44,38 @@ class MemoryListFragment : Fragment() {
         return view
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         val memories = memoryListViewModel.memories
         adapter = MemoryAdapter(memories)
         memoryRecyclerView.adapter = adapter
     }
 
-    private inner class MemoryHolder(view:View)
-        : RecyclerView.ViewHolder(view){
+    private inner class MemoryHolder(view: View) : RecyclerView.ViewHolder(view),
+        View.OnClickListener {
 
-        val titleTextView: TextView = itemView.findViewById(R.id.memory_title)
-        val dateTextView: TextView = itemView.findViewById(R.id.memory_date)
+        private lateinit var memory: Memory
+
+        private val titleTextView: TextView = itemView.findViewById(R.id.memory_title)
+        private val dateTextView: TextView = itemView.findViewById(R.id.memory_date)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        fun bind(memory: Memory) {
+            this.memory = memory
+            titleTextView.text = this.memory.title
+            dateTextView.text = this.memory.date.toString()
+        }
+
+        override fun onClick(v: View?) {
+            Toast.makeText(context, "${memory.title} pressed!", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
-    private inner class MemoryAdapter(var memories: List<Memory>)
-        :RecyclerView.Adapter<MemoryHolder>(){
+    private inner class MemoryAdapter(var memories: List<Memory>) :
+        RecyclerView.Adapter<MemoryHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                 : MemoryHolder {
@@ -69,10 +87,7 @@ class MemoryListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: MemoryHolder, position: Int) {
             val memory = memories[position]
-            holder.apply{
-                titleTextView.text = memory.title
-                dateTextView.text = memory.date.toString()
-            }
+            holder.bind(memory)
         }
     }
 
