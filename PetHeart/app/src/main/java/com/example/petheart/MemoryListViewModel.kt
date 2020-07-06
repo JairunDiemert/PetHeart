@@ -10,7 +10,7 @@ class MemoryListViewModel : ViewModel() {
         for(i in 0 until 100){
             val memory = Memory()
             memory.title = "Memory #$i"
-            memory.isFavorite = i % 2 == 0
+            memory.isFavorited = i % 2 == 0
             memories += memory
         }
     }

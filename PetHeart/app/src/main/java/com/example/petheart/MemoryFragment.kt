@@ -74,7 +74,7 @@ class MemoryFragment : Fragment() {
 
         favoritedCheckBox.apply {
             setOnCheckedChangeListener { _, isChecked ->
-                memory.isFavorite = isChecked
+                memory.isFavorited = isChecked
             }
         }
     }
