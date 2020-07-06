@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 
 class MemoryListViewModel : ViewModel() {
 
-    val memories = mutableListOf<Memory>()
+    private val memoryRepository = MemoryRepository.get()
+    val memoryListLiveData = memoryRepository.getMemories()
+
+    /*val memories = mutableListOf<Memory>()
 
     init {
         for(i in 0 until 100){
@@ -13,5 +16,5 @@ class MemoryListViewModel : ViewModel() {
             memory.isFavorited = i % 2 == 0
             memories += memory
         }
-    }
+    }*/
 }

@@ -1,6 +1,7 @@
 package com.example.petheart
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.petheart.database.MemoryDatabase
 import java.util.*
@@ -17,9 +18,11 @@ class MemoryRepository private constructor(context: Context) {
 
     private val memoryDao = database.memoryDao()
 
-    fun getMemories(): List<Memory> = memoryDao.getMemories()
+    //fun getMemories(): List<Memory> = memoryDao.getMemories()
+    fun getMemories(): LiveData<List<Memory>> = memoryDao.getMemories()
 
-    fun getMemory(id: UUID): Memory? = memoryDao.getMemory(id)
+    //fun getMemory(id: UUID): Memory? = memoryDao.getMemory(id)
+    fun getMemory(id: UUID): LiveData<Memory?> = memoryDao.getMemory(id)
 
     companion object {
         private var INSTANCE: MemoryRepository? = null

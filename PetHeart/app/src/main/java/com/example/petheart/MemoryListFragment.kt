@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,16 +19,16 @@ private const val TAG = "MemoryListFragment"
 class MemoryListFragment : Fragment() {
 
     private lateinit var memoryRecyclerView: RecyclerView
-    private var adapter: MemoryAdapter? = null
+    private var adapter: MemoryAdapter? = MemoryAdapter(emptyList())
 
     private val memoryListViewModel: MemoryListViewModel by lazy {
         ViewModelProviders.of(this).get(MemoryListViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Total memories: ${memoryListViewModel.memories.size}")
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,13 +41,28 @@ class MemoryListFragment : Fragment() {
             view.findViewById(R.id.memory_recycler_view) as RecyclerView
         memoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        updateUI()
+        //updateUI()
+
+        memoryRecyclerView.adapter = adapter
 
         return view
     }
 
-    private fun updateUI() {
-        val memories = memoryListViewModel.memories
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        memoryListViewModel.memoryListLiveData.observe(
+            viewLifecycleOwner,
+            Observer{ memories->
+                memories?.let{
+                    Log.i(TAG, "Got memories ${memories.size}")
+                    updateUI(memories)
+                }
+            }
+        )
+    }
+
+    private fun updateUI(memories: List<Memory>) {
+        //val memories = memoryListViewModel.memories
         adapter = MemoryAdapter(memories)
         memoryRecyclerView.adapter = adapter
     }
