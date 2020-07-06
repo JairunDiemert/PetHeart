@@ -1,7 +1,7 @@
 package com.example.petheart
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-        if(currentFragment == null) {
+        if (currentFragment == null) {
             //val fragment = MemoryFragment()
             val fragment = MemoryListFragment.newInstance()
             supportFragmentManager.beginTransaction()

@@ -7,7 +7,7 @@ import com.example.petheart.Memory
 import java.util.*
 
 @Dao
-interface MemoryDao{
+interface MemoryDao {
 
     @Query("SELECT * FROM memory")
     //fun getMemories(): List<Memory>
@@ -15,5 +15,5 @@ interface MemoryDao{
 
     @Query("SELECT * FROM memory WHERE id=(:id)")
     //fun getMemory(id: UUID): Memory?
-    fun getMemory(id:UUID): LiveData<Memory?>
+    fun getMemory(id: UUID): LiveData<Memory?>
 }

@@ -1,8 +1,7 @@
 package com.example.petheart.database
 
 import androidx.room.TypeConverter
-import java.util.Date
-import java.util.UUID
+import java.util.*
 
 class MemoryTypeConverters {
 
@@ -13,7 +12,7 @@ class MemoryTypeConverters {
 
     @TypeConverter
     fun toDate(millisSinceEpoch: Long?): Date? {
-        return millisSinceEpoch?.let{
+        return millisSinceEpoch?.let {
             Date(it)
         }
     }

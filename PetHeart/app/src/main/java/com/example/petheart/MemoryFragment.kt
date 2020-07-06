@@ -34,7 +34,7 @@ class MemoryFragment : Fragment() {
         dateButton = view.findViewById(R.id.memory_date) as Button
         favoritedCheckBox = view.findViewById(R.id.memory_favorited) as CheckBox
 
-        dateButton.apply{
+        dateButton.apply {
             text = memory.date.toString()
             isEnabled = false
         }
@@ -45,7 +45,7 @@ class MemoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val titleWatcher = object: TextWatcher {
+        val titleWatcher = object : TextWatcher {
 
             override fun beforeTextChanged(
                 sequence: CharSequence?,
