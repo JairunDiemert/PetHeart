@@ -94,6 +94,8 @@ class MemoryListFragment : Fragment() {
         override fun onClick(v: View?) {
             Toast.makeText(context, "${memory.title} pressed!", Toast.LENGTH_SHORT)
                 .show()
+            val intent = DetailsActivity.newIntent(context)
+            startActivity(intent)
         }
     }
 
