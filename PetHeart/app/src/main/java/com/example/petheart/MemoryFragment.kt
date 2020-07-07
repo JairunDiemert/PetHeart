@@ -13,13 +13,14 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import java.util.UUID
+import java.util.*
 
 private const val TAG = "CrimeFragment"
 private const val ARG_MEMORY_ID = "memory_id"
 private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class MemoryFragment : Fragment() {
+class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
     private lateinit var memory: Memory
     private lateinit var titleField: EditText
@@ -100,7 +101,9 @@ class MemoryFragment : Fragment() {
         }
 
         dateButton.setOnClickListener{
-            DatePickerFragment().apply{
+            //DatePickerFragment().apply{
+            DatePickerFragment.newInstance(memory.date).apply{
+                setTargetFragment(this@MemoryFragment, REQUEST_DATE)
                 show(this@MemoryFragment.requireFragmentManager(), DIALOG_DATE)
             }
         }
@@ -109,6 +112,11 @@ class MemoryFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         memoryDetailViewModel.saveMemory(memory)
+    }
+
+    override fun onDateSelected(date: Date) {
+        memory.date = date
+        updateUI()
     }
 
     private fun updateUI(){
