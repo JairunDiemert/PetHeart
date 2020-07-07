@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -19,12 +20,13 @@ class DetailsActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
+                //.addToBackStack(null) MIGHT NOT NEED
                 .commit()
         }
     }
 
     companion object {
-        fun newIntent(packageContext: Context?): Intent {
+        fun newIntent(packageContext: Context, memoryId: UUID): Intent {
             return Intent(packageContext, DetailsActivity::class.java)
         }
     }

@@ -1,5 +1,6 @@
 package com.example.petheart
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,16 +14,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 private const val TAG = "MemoryListFragment"
 
 class MemoryListFragment : Fragment() {
 
+    /**
+     * *Required interface for hosting activities
+     */
+    interface Callbacks {
+        fun onMemorySelected(memoryId: UUID)
+    }
+
+    private var callbacks: Callbacks? = null
+
     private lateinit var memoryRecyclerView: RecyclerView
     private var adapter: MemoryAdapter? = MemoryAdapter(emptyList())
-
     private val memoryListViewModel: MemoryListViewModel by lazy {
         ViewModelProviders.of(this).get(MemoryListViewModel::class.java)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
     }
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +76,13 @@ class MemoryListFragment : Fragment() {
         )
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }
+
     private fun updateUI(memories: List<Memory>) {
-        //val memories = memoryListViewModel.memories
+        val memories = memoryListViewModel.memories //REMOVE (TESTING)
         adapter = MemoryAdapter(memories)
         memoryRecyclerView.adapter = adapter
     }
@@ -91,11 +111,10 @@ class MemoryListFragment : Fragment() {
             }
         }
 
-        override fun onClick(v: View?) {
-            Toast.makeText(context, "${memory.title} pressed!", Toast.LENGTH_SHORT)
-                .show()
-            val intent = DetailsActivity.newIntent(context)
-            startActivity(intent)
+        override fun onClick(view: View?) {
+            callbacks?.onMemorySelected(memory.id)
+            //val intent = DetailsActivity.newIntent(context)
+            //startActivity(intent)
         }
     }
 
