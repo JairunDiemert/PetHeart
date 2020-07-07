@@ -17,6 +17,7 @@ import java.util.UUID
 
 private const val TAG = "CrimeFragment"
 private const val ARG_MEMORY_ID = "memory_id"
+private const val DIALOG_DATE = "DialogDate"
 
 class MemoryFragment : Fragment() {
 
@@ -45,11 +46,6 @@ class MemoryFragment : Fragment() {
         titleField = view.findViewById(R.id.memory_title) as EditText
         dateButton = view.findViewById(R.id.memory_date) as Button
         favoritedCheckBox = view.findViewById(R.id.memory_favorited) as CheckBox
-
-        dateButton.apply {
-            text = memory.date.toString()
-            isEnabled = false
-        }
 
         return view
     }
@@ -102,12 +98,27 @@ class MemoryFragment : Fragment() {
                 memory.isFavorited = isChecked
             }
         }
+
+        dateButton.setOnClickListener{
+            DatePickerFragment().apply{
+                show(this@MemoryFragment.requireFragmentManager(), DIALOG_DATE)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        memoryDetailViewModel.saveMemory(memory)
     }
 
     private fun updateUI(){
         titleField.setText(memory.title)
         dateButton.text = memory.date.toString()
-        favoritedCheckBox.isChecked = memory.isFavorited
+        //favoritedCheckBox.isChecked = memory.isFavorited
+        favoritedCheckBox.apply{
+            isChecked = memory.isFavorited
+            jumpDrawablesToCurrentState()
+        }
     }
 
     companion object{

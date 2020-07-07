@@ -18,4 +18,8 @@ class MemoryDetailViewModel : ViewModel() {
     fun loadMemory(memoryId: UUID) {
         memoryIdLiveData.value = memoryId
     }
+
+    fun saveMemory(memory: Memory){
+        memoryRepository.updateMemory(memory)
+    }
 }
