@@ -9,4 +9,6 @@
     <string name="delete_memory">Delete Memory</string>
     <string name="sort_memories_favorited">Show Favorited</string>
     <string name="sort_memories_all">Show All</string>
+    <string name="memory_details">Remember %1s! It happened on %2s. Remember %3s!</string>
+    <string name="memory_details_subject">PetHeart Memory Details</string>
 </resources>

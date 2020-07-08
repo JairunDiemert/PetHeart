@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.petheart.database.MemoryDatabase
+import com.example.petheart.database.migration_1_2
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -15,7 +16,8 @@ class MemoryRepository private constructor(context: Context) {
         context.applicationContext,
         MemoryDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).addMigrations(migration_1_2)
+        .build()
 
     private val memoryDao = database.memoryDao()
     private val executor = Executors.newSingleThreadExecutor()

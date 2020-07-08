@@ -1,9 +1,10 @@
 package com.example.petheart
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.text.format.DateFormat
 import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
@@ -18,6 +19,7 @@ private const val TAG = "CrimeFragment"
 private const val ARG_MEMORY_ID = "memory_id"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0
+private const val DATE_FORMAT = "EEE, MMM, dd"
 
 class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
@@ -25,14 +27,14 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
     private lateinit var favoritedCheckBox: CheckBox
-    private val memoryDetailViewModel: MemoryDetailViewModel by lazy{
+    private val memoryDetailViewModel: MemoryDetailViewModel by lazy {
         ViewModelProviders.of(this).get(MemoryDetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         memory = Memory()
-        val memoryId: UUID =  arguments?.getSerializable(ARG_MEMORY_ID) as UUID
+        val memoryId: UUID = arguments?.getSerializable(ARG_MEMORY_ID) as UUID
         memoryDetailViewModel.loadMemory(memoryId)
 
         setHasOptionsMenu(true)
@@ -56,8 +58,8 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         super.onViewCreated(view, savedInstanceState)
         memoryDetailViewModel.memoryLiveData.observe(
             viewLifecycleOwner,
-            Observer{memory->
-                memory?.let{
+            Observer { memory ->
+                memory?.let {
                     this.memory = memory
                     updateUI()
                 }
@@ -101,9 +103,9 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
             }
         }
 
-        dateButton.setOnClickListener{
+        dateButton.setOnClickListener {
             //DatePickerFragment().apply{
-            DatePickerFragment.newInstance(memory.date).apply{
+            DatePickerFragment.newInstance(memory.date).apply {
                 setTargetFragment(this@MemoryFragment, REQUEST_DATE)
                 show(this@MemoryFragment.requireFragmentManager(), DIALOG_DATE)
             }
@@ -120,14 +122,24 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         updateUI()
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         titleField.setText(memory.title)
         dateButton.text = memory.date.toString()
         //favoritedCheckBox.isChecked = memory.isFavorited
-        favoritedCheckBox.apply{
+        favoritedCheckBox.apply {
             isChecked = memory.isFavorited
             jumpDrawablesToCurrentState()
         }
+    }
+
+    private fun getMemoryDetails(): String {
+        val titleString = memory.title
+        val dateString = DateFormat.format(DATE_FORMAT, memory.date).toString()
+        val descriptionString = memory.description
+
+        return getString(
+            R.string.memory_details,
+            titleString, dateString, descriptionString)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -136,26 +148,37 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.share_memory->{
-                Toast.makeText(context, "Share Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+        return when (item.itemId) {
+
+            R.id.share_memory -> {
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, getMemoryDetails())
+                    putExtra(
+                        Intent.EXTRA_SUBJECT,
+                        getString(R.string.memory_details_subject)
+                    )
+                }.also { intent ->
+                    startActivity(intent)
+                }
 
                 true
             }
-            R.id.delete_memory->{
+
+            R.id.delete_memory -> {
                 Toast.makeText(context, "Delete Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
 
                 true
             }
 
-            else-> return super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 
-    companion object{
+    companion object {
 
         fun newInstance(memoryId: UUID): MemoryFragment {
-            val args = Bundle().apply{
+            val args = Bundle().apply {
                 putSerializable(ARG_MEMORY_ID, memoryId)
             }
             return MemoryFragment().apply {
