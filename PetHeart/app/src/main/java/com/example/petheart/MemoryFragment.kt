@@ -6,10 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.view.*
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,7 +23,7 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var memory: Memory
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
-    private lateinit var favoritedCheckBox: CheckBox
+    private lateinit var favoritedSwitch: Switch
     private val memoryDetailViewModel: MemoryDetailViewModel by lazy {
         ViewModelProviders.of(this).get(MemoryDetailViewModel::class.java)
     }
@@ -49,7 +46,7 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
         titleField = view.findViewById(R.id.memory_title) as EditText
         dateButton = view.findViewById(R.id.memory_date) as Button
-        favoritedCheckBox = view.findViewById(R.id.memory_favorited) as CheckBox
+        favoritedSwitch = view.findViewById(R.id.memory_favorited) as Switch
 
         return view
     }
@@ -97,7 +94,7 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
         titleField.addTextChangedListener(titleWatcher)
 
-        favoritedCheckBox.apply {
+        favoritedSwitch.apply {
             setOnCheckedChangeListener { _, isChecked ->
                 memory.isFavorited = isChecked
             }
@@ -126,7 +123,7 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         titleField.setText(memory.title)
         dateButton.text = memory.date.toString()
         //favoritedCheckBox.isChecked = memory.isFavorited
-        favoritedCheckBox.apply {
+        favoritedSwitch.apply {
             isChecked = memory.isFavorited
             jumpDrawablesToCurrentState()
         }
@@ -159,7 +156,9 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
                         getString(R.string.memory_details_subject)
                     )
                 }.also { intent ->
-                    startActivity(intent)
+                    val chooserIntent =
+                        Intent.createChooser(intent, getString(R.string.send_memory))
+                    startActivity(chooserIntent)
                 }
 
                 true
