@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -35,6 +34,8 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         memory = Memory()
         val memoryId: UUID =  arguments?.getSerializable(ARG_MEMORY_ID) as UUID
         memoryDetailViewModel.loadMemory(memoryId)
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -126,6 +127,28 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         favoritedCheckBox.apply{
             isChecked = memory.isFavorited
             jumpDrawablesToCurrentState()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_memory, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.share_memory->{
+                Toast.makeText(context, "Share Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+
+                true
+            }
+            R.id.delete_memory->{
+                Toast.makeText(context, "Delete Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+
+                true
+            }
+
+            else-> return super.onOptionsItemSelected(item)
         }
     }
 
