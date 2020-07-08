@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -65,8 +64,8 @@ class MemoryListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         memoryListViewModel.memoryListLiveData.observe(
             viewLifecycleOwner,
-            Observer{ memories->
-                memories?.let{
+            Observer { memories ->
+                memories?.let {
                     Log.i(TAG, "Got memories ${memories.size}")
                     updateUI(memories)
                 }
@@ -84,8 +83,20 @@ class MemoryListFragment : Fragment() {
         inflater.inflate(R.menu.fragment_memory_list, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_memory -> {
+                val memory = Memory()
+                memoryListViewModel.addMemory(memory)
+                callbacks?.onMemorySelected(memory.id)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun updateUI(memories: List<Memory>) {
-        val memories = memoryListViewModel.memories //REMOVE (TESTING)
+        //val memories = memoryListViewModel.memories //REMOVE (TESTING)
         adapter = MemoryAdapter(memories)
         memoryRecyclerView.adapter = adapter
     }
@@ -107,9 +118,9 @@ class MemoryListFragment : Fragment() {
             this.memory = memory
             titleTextView.text = this.memory.title
             dateTextView.text = this.memory.date.toString()
-            favoritedImageView.visibility = if(memory.isFavorited){
+            favoritedImageView.visibility = if (memory.isFavorited) {
                 View.VISIBLE
-            } else{
+            } else {
                 View.GONE
             }
         }
