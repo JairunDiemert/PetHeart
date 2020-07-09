@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 import java.util.*
 
 private const val TAG = "MemoryListFragment"
@@ -116,10 +117,12 @@ class MemoryListFragment : Fragment() {
         View.OnClickListener {
 
         private lateinit var memory: Memory
+        private lateinit var photoFile: File
 
         private val titleTextView: TextView = itemView.findViewById(R.id.memory_title)
         private val dateTextView: TextView = itemView.findViewById(R.id.memory_date)
         private val favoritedImageView: ImageView = itemView.findViewById(R.id.memory_favorited)
+        private val photoThumbnail: ImageView = itemView.findViewById(R.id.memory_thumbnail)
 
         init {
             itemView.setOnClickListener(this)
@@ -134,12 +137,22 @@ class MemoryListFragment : Fragment() {
             } else {
                 View.GONE
             }
+            photoFile = memoryListViewModel.getPhotoFile(memory)
+            updatePhotoView()
         }
 
         override fun onClick(view: View?) {
             callbacks?.onMemorySelected(memory.id)
             //val intent = DetailsActivity.newIntent(context)
             //startActivity(intent)
+        }
+        private fun updatePhotoView(){
+            if(photoFile.exists()){
+                val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+                photoThumbnail.setImageBitmap(bitmap)
+            }else{
+                photoThumbnail.setImageDrawable(null)
+            }
         }
     }
 
