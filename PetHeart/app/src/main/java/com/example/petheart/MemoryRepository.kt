@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.petheart.database.MemoryDatabase
 import com.example.petheart.database.migration_1_2
+import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -21,6 +22,7 @@ class MemoryRepository private constructor(context: Context) {
 
     private val memoryDao = database.memoryDao()
     private val executor = Executors.newSingleThreadExecutor()
+    private val filesDir = context.applicationContext.filesDir
 
     //fun getMemories(): List<Memory> = memoryDao.getMemories()
     fun getMemories(): LiveData<List<Memory>> = memoryDao.getMemories()
@@ -39,6 +41,8 @@ class MemoryRepository private constructor(context: Context) {
             memoryDao.addMemory(memory)
         }
     }
+
+    fun getPhotoFile(memory: Memory): File = File(filesDir, memory.photoFileName)
 
     companion object {
         private var INSTANCE: MemoryRepository? = null
