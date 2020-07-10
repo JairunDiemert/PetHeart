@@ -13,14 +13,15 @@ class MemoryDetailViewModel : ViewModel() {
     private val memoryIdLiveData = MutableLiveData<UUID>()
 
     var memoryLiveData: LiveData<Memory?> =
-        Transformations.switchMap(memoryIdLiveData){memoryId->
+        Transformations.switchMap(memoryIdLiveData) { memoryId ->
             memoryRepository.getMemory(memoryId)
         }
+
     fun loadMemory(memoryId: UUID) {
         memoryIdLiveData.value = memoryId
     }
 
-    fun saveMemory(memory: Memory){
+    fun saveMemory(memory: Memory) {
         memoryRepository.updateMemory(memory)
     }
 
@@ -28,7 +29,7 @@ class MemoryDetailViewModel : ViewModel() {
         return memoryRepository.getPhotoFile(memory)
     }
 
-    fun deleteMemory(memory: Memory){
+    fun deleteMemory(memory: Memory) {
         memoryRepository.deleteMemory(memory)
     }
 }

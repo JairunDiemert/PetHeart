@@ -41,7 +41,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/memory_favorited_star" />
+        android:contentDescription="TODO"
+        app:srcCompat="@drawable/memory_favorited_star"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/memory_thumbnail"
@@ -56,6 +58,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        android:contentDescription="TODO"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

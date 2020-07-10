@@ -26,14 +26,13 @@ class DetailsActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
-                //.addToBackStack(null) MIGHT NOT NEED
                 .commit()
         }
     }
 
     companion object {
         fun newIntent(packageContext: Context, memoryId: UUID): Intent {
-            return Intent(packageContext, DetailsActivity::class.java).apply{
+            return Intent(packageContext, DetailsActivity::class.java).apply {
                 putExtra(EXTRA_SELECTED_MEMORY_ID, memoryId)
             }
         }

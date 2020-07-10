@@ -4,8 +4,9 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
+import kotlin.math.roundToLong
 
-fun getScaledBitmap(path:String, activity: Activity): Bitmap{
+fun getScaledBitmap(path: String, activity: Activity): Bitmap {
     val size = Point()
     activity.windowManager.defaultDisplay.getSize(size)
     return getScaledBitmap(path, size.x, size.y)
@@ -32,7 +33,7 @@ fun getScaledBitmap(path: String, destWidth: Int, destHeight: Int): Bitmap {
         } else {
             widthScale
         }
-        inSampleSize = Math.round(sampleScale)
+        inSampleSize = sampleScale.roundToLong().toInt()
     }
 
     options = BitmapFactory.Options()

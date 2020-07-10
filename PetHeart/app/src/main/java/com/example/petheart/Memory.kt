@@ -11,9 +11,10 @@ data class Memory(
     var title: String = "",
     var date: Date = Date(),
     var isFavorited: Boolean = false,
-    var description: String=""){
+    var description: String = ""
+) {
 
     val photoFileName
-    get() = "IMG_$id.jpg"
+        get() = "IMG_$id.jpg"
 }
 

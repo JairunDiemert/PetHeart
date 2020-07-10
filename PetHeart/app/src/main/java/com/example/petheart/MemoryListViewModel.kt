@@ -7,9 +7,10 @@ class MemoryListViewModel : ViewModel() {
 
     private val memoryRepository = MemoryRepository.get()
     val memoryListLiveData = memoryRepository.getMemories()
+    val memoryListLiveDataFavorites = memoryRepository.getFavorites()
 
 
-    fun addMemory(memory: Memory){
+    fun addMemory(memory: Memory) {
         memoryRepository.addMemory(memory)
     }
 

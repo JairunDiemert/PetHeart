@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,7 +19,6 @@ import androidx.lifecycle.ViewModelProviders
 import java.io.File
 import java.util.*
 
-private const val TAG = "MemoryFragment"
 private const val ARG_MEMORY_ID = "memory_id"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0
@@ -76,7 +74,11 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
                 memory?.let {
                     this.memory = memory
                     photoFile = memoryDetailViewModel.getPhotoFile(memory)
-                    photoUri = FileProvider.getUriForFile(requireActivity(), "com.example.petheart.fileprovider", photoFile)
+                    photoUri = FileProvider.getUriForFile(
+                        requireActivity(),
+                        "com.example.petheart.fileprovider",
+                        photoFile
+                    )
                     updateUI()
                 }
             }
@@ -147,36 +149,41 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         }
 
         dateButton.setOnClickListener {
-            //DatePickerFragment().apply{
+
             DatePickerFragment.newInstance(memory.date).apply {
                 setTargetFragment(this@MemoryFragment, REQUEST_DATE)
                 show(this@MemoryFragment.requireFragmentManager(), DIALOG_DATE)
             }
         }
 
-        photoButton.apply{
+        photoButton.apply {
             val packageManager: PackageManager = requireActivity().packageManager
 
             val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             val resolvedActivity: ResolveInfo? =
-                packageManager.resolveActivity(captureImage,
-                    PackageManager.MATCH_DEFAULT_ONLY)
-            if(resolvedActivity == null){
+                packageManager.resolveActivity(
+                    captureImage,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
+            if (resolvedActivity == null) {
                 isEnabled = false
             }
 
-            setOnClickListener{
+            setOnClickListener {
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
 
                 val cameraActivities: List<ResolveInfo> =
-                    packageManager.queryIntentActivities(captureImage,
-                        PackageManager.MATCH_DEFAULT_ONLY)
+                    packageManager.queryIntentActivities(
+                        captureImage,
+                        PackageManager.MATCH_DEFAULT_ONLY
+                    )
 
-                for (cameraActivity in cameraActivities){
+                for (cameraActivity in cameraActivities) {
                     requireActivity().grantUriPermission(
                         cameraActivity.activityInfo.packageName,
                         photoUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
                 }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO)
@@ -198,7 +205,6 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         titleField.setText(memory.title)
         descriptionField.setText(memory.description)
         dateButton.text = memory.date.toString()
-        //favoritedCheckBox.isChecked = memory.isFavorited
         favoritedSwitch.apply {
             isChecked = memory.isFavorited
             jumpDrawablesToCurrentState()
@@ -206,19 +212,21 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
         updatePhotoView()
     }
 
-    private fun updatePhotoView(){
-        if(photoFile.exists()){
+    private fun updatePhotoView() {
+        if (photoFile.exists()) {
             val bitmap = getScaledBitmap(photoFile.path, requireActivity())
             photoView.setImageBitmap(bitmap)
-        }else{
+        } else {
             photoView.setImageDrawable(null)
         }
     }
 
-    override fun onDetach(){
+    override fun onDetach() {
         super.onDetach()
-        requireActivity().revokeUriPermission(photoUri,
-        Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        requireActivity().revokeUriPermission(
+            photoUri,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -242,7 +250,8 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
         return getString(
             R.string.memory_details,
-            titleString, dateString, descriptionString)
+            titleString, dateString, descriptionString
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -271,7 +280,7 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
             }
 
             R.id.delete_memory -> {
-                Toast.makeText(context, "Delete Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+
                 memoryDetailViewModel.deleteMemory(memory)
                 activity?.finish()
 

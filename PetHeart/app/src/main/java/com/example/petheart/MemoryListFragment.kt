@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -55,8 +54,6 @@ class MemoryListFragment : Fragment() {
             view.findViewById(R.id.memory_recycler_view) as RecyclerView
         memoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        //updateUI()
-
         memoryRecyclerView.adapter = adapter
 
         return view
@@ -94,12 +91,28 @@ class MemoryListFragment : Fragment() {
                 true
             }
             R.id.sort_memories_favorited -> {
-                Toast.makeText(context, "Sort Memory Favorited \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+                memoryListViewModel.memoryListLiveDataFavorites.observe(
+                    viewLifecycleOwner,
+                    Observer { memories ->
+                        memories?.let {
+                            Log.i(TAG, "Got memories ${memories.size}")
+                            updateUI(memories)
+                        }
+                    }
+                )
 
                 true
             }
             R.id.sort_memories_all -> {
-                Toast.makeText(context, "Sort Memory All \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+                memoryListViewModel.memoryListLiveData.observe(
+                    viewLifecycleOwner,
+                    Observer { memories ->
+                        memories?.let {
+                            Log.i(TAG, "Got memories ${memories.size}")
+                            updateUI(memories)
+                        }
+                    }
+                )
 
                 true
             }
@@ -108,7 +121,6 @@ class MemoryListFragment : Fragment() {
     }
 
     private fun updateUI(memories: List<Memory>) {
-        //val memories = memoryListViewModel.memories //REMOVE (TESTING)
         adapter = MemoryAdapter(memories)
         memoryRecyclerView.adapter = adapter
     }
@@ -143,14 +155,13 @@ class MemoryListFragment : Fragment() {
 
         override fun onClick(view: View?) {
             callbacks?.onMemorySelected(memory.id)
-            //val intent = DetailsActivity.newIntent(context)
-            //startActivity(intent)
         }
-        private fun updatePhotoView(){
-            if(photoFile.exists()){
+
+        private fun updatePhotoView() {
+            if (photoFile.exists()) {
                 val bitmap = getScaledBitmap(photoFile.path, requireActivity())
                 photoThumbnail.setImageBitmap(bitmap)
-            }else{
+            } else {
                 photoThumbnail.setImageDrawable(null)
             }
         }

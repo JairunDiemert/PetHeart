@@ -24,26 +24,27 @@ class MemoryRepository private constructor(context: Context) {
     private val executor = Executors.newSingleThreadExecutor()
     private val filesDir = context.applicationContext.filesDir
 
-    //fun getMemories(): List<Memory> = memoryDao.getMemories()
+
     fun getMemories(): LiveData<List<Memory>> = memoryDao.getMemories()
 
-    //fun getMemory(id: UUID): Memory? = memoryDao.getMemory(id)
+    fun getFavorites(): LiveData<List<Memory>> = memoryDao.getFavorites()
+
     fun getMemory(id: UUID): LiveData<Memory?> = memoryDao.getMemory(id)
 
-    fun updateMemory(memory: Memory){
-        executor.execute{
+    fun updateMemory(memory: Memory) {
+        executor.execute {
             memoryDao.updateMemory(memory)
         }
     }
 
-    fun addMemory(memory: Memory){
-        executor.execute{
+    fun addMemory(memory: Memory) {
+        executor.execute {
             memoryDao.addMemory(memory)
         }
     }
 
-    fun deleteMemory(memory: Memory){
-        executor.execute{
+    fun deleteMemory(memory: Memory) {
+        executor.execute {
             memoryDao.deleteMemory(memory)
         }
     }
