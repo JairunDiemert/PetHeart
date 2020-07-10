@@ -272,6 +272,8 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
             R.id.delete_memory -> {
                 Toast.makeText(context, "Delete Memory \n   (FIX ME)", Toast.LENGTH_SHORT).show()
+                memoryDetailViewModel.deleteMemory(memory)
+                activity?.finish()
 
                 true
             }

@@ -1,12 +1,10 @@
 package com.example.petheart.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.petheart.Memory
 import java.util.*
+
 
 @Dao
 interface MemoryDao {
@@ -21,6 +19,9 @@ interface MemoryDao {
 
     @Update
     fun updateMemory(memory: Memory)
+
+    @Delete
+    fun deleteMemory(memory: Memory)
 
     @Insert
     fun addMemory(memory: Memory)

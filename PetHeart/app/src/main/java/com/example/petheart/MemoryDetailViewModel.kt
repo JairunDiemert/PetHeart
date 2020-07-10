@@ -27,4 +27,8 @@ class MemoryDetailViewModel : ViewModel() {
     fun getPhotoFile(memory: Memory): File {
         return memoryRepository.getPhotoFile(memory)
     }
+
+    fun deleteMemory(memory: Memory){
+        memoryRepository.deleteMemory(memory)
+    }
 }
