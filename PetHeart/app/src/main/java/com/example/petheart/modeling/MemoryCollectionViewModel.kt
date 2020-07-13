@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.petheart.repository.MemoryRepository
 import java.io.File
 
-class MemoryListViewModel : ViewModel() {
+class MemoryCollectionViewModel : ViewModel() {
 
     private val memoryRepository = MemoryRepository.get()
     val memoryListLiveData = memoryRepository.getMemories()

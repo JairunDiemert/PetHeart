@@ -8,7 +8,7 @@ import com.example.petheart.repository.MemoryRepository
 import java.io.File
 import java.util.*
 
-class MemoryDetailViewModel : ViewModel() {
+class MemoryDetailsViewModel : ViewModel() {
 
     private val memoryRepository = MemoryRepository.get()
     private val memoryIdLiveData = MutableLiveData<UUID>()

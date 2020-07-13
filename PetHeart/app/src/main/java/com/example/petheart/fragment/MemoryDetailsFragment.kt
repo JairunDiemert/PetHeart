@@ -18,7 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.petheart.R
 import com.example.petheart.modeling.Memory
-import com.example.petheart.modeling.MemoryDetailViewModel
+import com.example.petheart.modeling.MemoryDetailsViewModel
 import com.example.petheart.utility.getScaledBitmap
 import java.io.File
 import java.util.*
@@ -41,15 +41,15 @@ class MemoryFragment : Fragment(),
     private lateinit var photoButton: ImageButton
     private lateinit var photoView: ImageView
     private lateinit var favoritedSwitch: Switch
-    private val memoryDetailViewModel: MemoryDetailViewModel by lazy {
-        ViewModelProviders.of(this).get(MemoryDetailViewModel::class.java)
+    private val memoryDetailsViewModel: MemoryDetailsViewModel by lazy {
+        ViewModelProviders.of(this).get(MemoryDetailsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         memory = Memory()
         val memoryId: UUID = arguments?.getSerializable(ARG_MEMORY_ID) as UUID
-        memoryDetailViewModel.loadMemory(memoryId)
+        memoryDetailsViewModel.loadMemory(memoryId)
 
         setHasOptionsMenu(true)
     }
@@ -73,12 +73,12 @@ class MemoryFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        memoryDetailViewModel.memoryLiveData.observe(
+        memoryDetailsViewModel.memoryLiveData.observe(
             viewLifecycleOwner,
             Observer { memory ->
                 memory?.let {
                     this.memory = memory
-                    photoFile = memoryDetailViewModel.getPhotoFile(memory)
+                    photoFile = memoryDetailsViewModel.getPhotoFile(memory)
                     photoUri = FileProvider.getUriForFile(
                         requireActivity(),
                         "com.example.petheart.fileprovider",
@@ -208,7 +208,7 @@ class MemoryFragment : Fragment(),
 
     override fun onStop() {
         super.onStop()
-        memoryDetailViewModel.saveMemory(memory)
+        memoryDetailsViewModel.saveMemory(memory)
     }
 
     override fun onDateSelected(date: Date) {
@@ -299,7 +299,7 @@ class MemoryFragment : Fragment(),
 
             R.id.delete_memory -> {
 
-                memoryDetailViewModel.deleteMemory(memory)
+                memoryDetailsViewModel.deleteMemory(memory)
                 activity?.finish()
 
                 true

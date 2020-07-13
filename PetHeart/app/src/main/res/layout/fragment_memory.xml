@@ -88,6 +88,7 @@
             android:text="@string/memory_description_label" />
 
         <EditText
+            android:gravity="top|left"
             android:id="@+id/memory_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="32dp"/>
 
     </LinearLayout>
 </ScrollView>

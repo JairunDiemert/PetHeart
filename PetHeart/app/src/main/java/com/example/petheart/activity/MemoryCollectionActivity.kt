@@ -6,7 +6,7 @@ import com.example.petheart.R
 import com.example.petheart.fragment.MemoryListFragment
 import java.util.*
 
-class MainActivity : AppCompatActivity(), MemoryListFragment.Callbacks {
+class MemoryCollectionActivity : AppCompatActivity(), MemoryListFragment.Callbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

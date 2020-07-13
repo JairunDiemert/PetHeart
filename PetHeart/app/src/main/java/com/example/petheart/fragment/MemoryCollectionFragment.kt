@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petheart.R
 import com.example.petheart.modeling.Memory
-import com.example.petheart.modeling.MemoryListViewModel
+import com.example.petheart.modeling.MemoryCollectionViewModel
 import com.example.petheart.utility.getScaledBitmap
 import java.io.File
 import java.util.*
@@ -33,8 +33,8 @@ class MemoryListFragment : Fragment() {
 
     private lateinit var memoryRecyclerView: RecyclerView
     private var adapter: MemoryAdapter? = MemoryAdapter(emptyList())
-    private val memoryListViewModel: MemoryListViewModel by lazy {
-        ViewModelProviders.of(this).get(MemoryListViewModel::class.java)
+    private val memoryCollectionViewModel: MemoryCollectionViewModel by lazy {
+        ViewModelProviders.of(this).get(MemoryCollectionViewModel::class.java)
     }
 
     override fun onAttach(context: Context) {
@@ -65,7 +65,7 @@ class MemoryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        memoryListViewModel.memoryListLiveData.observe(
+        memoryCollectionViewModel.memoryListLiveData.observe(
             viewLifecycleOwner,
             Observer { memories ->
                 memories?.let {
@@ -90,12 +90,12 @@ class MemoryListFragment : Fragment() {
         return when (item.itemId) {
             R.id.new_memory -> {
                 val memory = Memory()
-                memoryListViewModel.addMemory(memory)
+                memoryCollectionViewModel.addMemory(memory)
                 callbacks?.onMemorySelected(memory.id)
                 true
             }
             R.id.sort_memories_favorited -> {
-                memoryListViewModel.memoryListLiveDataFavorites.observe(
+                memoryCollectionViewModel.memoryListLiveDataFavorites.observe(
                     viewLifecycleOwner,
                     Observer { memories ->
                         memories?.let {
@@ -108,7 +108,7 @@ class MemoryListFragment : Fragment() {
                 true
             }
             R.id.sort_memories_all -> {
-                memoryListViewModel.memoryListLiveData.observe(
+                memoryCollectionViewModel.memoryListLiveData.observe(
                     viewLifecycleOwner,
                     Observer { memories ->
                         memories?.let {
@@ -153,7 +153,7 @@ class MemoryListFragment : Fragment() {
             } else {
                 View.GONE
             }
-            photoFile = memoryListViewModel.getPhotoFile(memory)
+            photoFile = memoryCollectionViewModel.getPhotoFile(memory)
             updatePhotoView()
         }
 
