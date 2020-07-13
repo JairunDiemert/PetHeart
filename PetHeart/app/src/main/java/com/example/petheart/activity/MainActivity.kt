@@ -1,7 +1,9 @@
-package com.example.petheart
+package com.example.petheart.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.petheart.R
+import com.example.petheart.fragment.MemoryListFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity(), MemoryListFragment.Callbacks {

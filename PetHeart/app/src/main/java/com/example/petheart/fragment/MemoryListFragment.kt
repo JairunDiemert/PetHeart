@@ -1,4 +1,4 @@
-package com.example.petheart
+package com.example.petheart.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.petheart.R
+import com.example.petheart.modeling.Memory
+import com.example.petheart.modeling.MemoryListViewModel
+import com.example.petheart.utility.getScaledBitmap
 import java.io.File
 import java.util.*
 
@@ -159,7 +163,10 @@ class MemoryListFragment : Fragment() {
 
         private fun updatePhotoView() {
             if (photoFile.exists()) {
-                val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+                val bitmap = getScaledBitmap(
+                    photoFile.path,
+                    requireActivity()
+                )
                 photoThumbnail.setImageBitmap(bitmap)
             } else {
                 photoThumbnail.setImageDrawable(null)

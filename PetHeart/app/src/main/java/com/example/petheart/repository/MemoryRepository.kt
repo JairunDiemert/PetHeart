@@ -1,8 +1,9 @@
-package com.example.petheart
+package com.example.petheart.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.example.petheart.modeling.Memory
 import com.example.petheart.database.MemoryDatabase
 import com.example.petheart.database.migration_1_2
 import java.io.File
@@ -56,12 +57,14 @@ class MemoryRepository private constructor(context: Context) {
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = MemoryRepository(context)
+                INSTANCE =
+                    MemoryRepository(context)
             }
         }
 
         fun get(): MemoryRepository {
-            return INSTANCE ?: throw IllegalStateException("MemoryRepository must be initialized")
+            return INSTANCE
+                ?: throw IllegalStateException("MemoryRepository must be initialized")
         }
     }
 }

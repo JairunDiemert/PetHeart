@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.petheart.Memory
+import com.example.petheart.modeling.Memory
 
 @Database(entities = [Memory::class], version = 2)
 @TypeConverters(MemoryTypeConverters::class)

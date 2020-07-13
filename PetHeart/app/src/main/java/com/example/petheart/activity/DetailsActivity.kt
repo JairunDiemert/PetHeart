@@ -1,9 +1,11 @@
-package com.example.petheart
+package com.example.petheart.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.petheart.R
+import com.example.petheart.fragment.MemoryFragment
 import java.util.*
 
 private const val EXTRA_SELECTED_MEMORY_ID = "com.example.petheart.selected_amount_earned"

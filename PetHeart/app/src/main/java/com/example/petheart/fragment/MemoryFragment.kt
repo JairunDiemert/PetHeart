@@ -1,4 +1,4 @@
-package com.example.petheart
+package com.example.petheart.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -16,6 +16,10 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.petheart.R
+import com.example.petheart.modeling.Memory
+import com.example.petheart.modeling.MemoryDetailViewModel
+import com.example.petheart.utility.getScaledBitmap
 import java.io.File
 import java.util.*
 
@@ -25,7 +29,8 @@ private const val REQUEST_DATE = 0
 private const val REQUEST_PHOTO = 1
 private const val DATE_FORMAT = "EEE, MMM, dd"
 
-class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
+class MemoryFragment : Fragment(),
+    DatePickerFragment.Callbacks {
 
     private lateinit var memory: Memory
     private lateinit var photoFile: File
@@ -150,9 +155,14 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
         dateButton.setOnClickListener {
 
-            DatePickerFragment.newInstance(memory.date).apply {
-                setTargetFragment(this@MemoryFragment, REQUEST_DATE)
-                show(this@MemoryFragment.requireFragmentManager(), DIALOG_DATE)
+            DatePickerFragment.newInstance(memory.date)
+                .apply {
+                setTargetFragment(this@MemoryFragment,
+                    REQUEST_DATE
+                )
+                show(this@MemoryFragment.requireFragmentManager(),
+                    DIALOG_DATE
+                )
             }
         }
 
@@ -186,7 +196,9 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
                     )
                 }
 
-                startActivityForResult(captureImage, REQUEST_PHOTO)
+                startActivityForResult(captureImage,
+                    REQUEST_PHOTO
+                )
             }
         }
     }
@@ -214,7 +226,10 @@ class MemoryFragment : Fragment(), DatePickerFragment.Callbacks {
 
     private fun updatePhotoView() {
         if (photoFile.exists()) {
-            val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+            val bitmap = getScaledBitmap(
+                photoFile.path,
+                requireActivity()
+            )
             photoView.setImageBitmap(bitmap)
         } else {
             photoView.setImageDrawable(null)

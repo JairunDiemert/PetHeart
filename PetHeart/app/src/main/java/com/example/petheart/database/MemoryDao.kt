@@ -2,7 +2,7 @@ package com.example.petheart.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.petheart.Memory
+import com.example.petheart.modeling.Memory
 import java.util.*
 
 

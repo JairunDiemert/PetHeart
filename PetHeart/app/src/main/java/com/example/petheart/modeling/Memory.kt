@@ -1,4 +1,4 @@
-package com.example.petheart
+package com.example.petheart.modeling
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
