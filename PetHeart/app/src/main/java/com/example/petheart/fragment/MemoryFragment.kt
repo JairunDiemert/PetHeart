@@ -157,13 +157,15 @@ class MemoryFragment : Fragment(),
 
             DatePickerFragment.newInstance(memory.date)
                 .apply {
-                setTargetFragment(this@MemoryFragment,
-                    REQUEST_DATE
-                )
-                show(this@MemoryFragment.requireFragmentManager(),
-                    DIALOG_DATE
-                )
-            }
+                    setTargetFragment(
+                        this@MemoryFragment,
+                        REQUEST_DATE
+                    )
+                    show(
+                        this@MemoryFragment.requireFragmentManager(),
+                        DIALOG_DATE
+                    )
+                }
         }
 
         photoButton.apply {
@@ -196,7 +198,8 @@ class MemoryFragment : Fragment(),
                     )
                 }
 
-                startActivityForResult(captureImage,
+                startActivityForResult(
+                    captureImage,
                     REQUEST_PHOTO
                 )
             }

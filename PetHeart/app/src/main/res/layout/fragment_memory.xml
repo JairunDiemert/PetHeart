@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="36dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
@@ -33,7 +33,7 @@
                     android:id="@+id/memory_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/memory_title_hint"/>
+                    android:hint="@string/memory_title_hint" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,10 +63,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="16dp"
-            android:scaleType="centerInside"
-            android:cropToPadding="true"
             android:background="@android:color/darker_gray"
-            android:contentDescription="TODO" />
+            android:cropToPadding="true"
+            android:scaleType="centerInside" />
 
         <ImageButton
             android:id="@+id/memory_camera"
@@ -74,7 +73,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:contentDescription="TODO"
             android:src="@drawable/ic_menu_camera" />
 
         <Button
@@ -97,7 +95,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp" />
 
     </LinearLayout>
 </ScrollView>

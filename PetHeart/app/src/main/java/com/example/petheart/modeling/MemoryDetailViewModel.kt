@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.petheart.modeling.Memory
 import com.example.petheart.repository.MemoryRepository
 import java.io.File
 import java.util.*

@@ -1,7 +1,6 @@
 package com.example.petheart.modeling
 
 import androidx.lifecycle.ViewModel
-import com.example.petheart.modeling.Memory
 import com.example.petheart.repository.MemoryRepository
 import java.io.File
 

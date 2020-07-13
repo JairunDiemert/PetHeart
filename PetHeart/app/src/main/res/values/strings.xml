@@ -13,4 +13,6 @@
     <string name="memory_details_subject">PetHeart Memory Details</string>
     <string name="send_memory">Send memory via</string>
     <string name="memory_description_hint">Enter a description of the memory…</string>
+    <string name="memory_title">Memory Title</string>
+    <string name="memory_date">Memory Date</string>
 </resources>
